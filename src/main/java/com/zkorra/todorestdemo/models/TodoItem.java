@@ -1,4 +1,4 @@
-package com.zkorra.todorestdemo.data.entities;
+package com.zkorra.todorestdemo.models;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +19,8 @@ public class TodoItem {
     @Setter
     private boolean completed;
 
-    public TodoItem() {}
+    public TodoItem() {
+    }
 
     public TodoItem(String description, boolean completed) {
         setDescription(description);

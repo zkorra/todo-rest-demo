@@ -1,6 +1,6 @@
-package com.zkorra.todorestdemo.data.repositories;
+package com.zkorra.todorestdemo.repositories;
 
-import com.zkorra.todorestdemo.data.entities.TodoItem;
+import com.zkorra.todorestdemo.models.TodoItem;
 
 import java.util.ArrayList;
 import java.util.List;
