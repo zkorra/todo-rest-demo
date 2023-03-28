@@ -1,8 +1,7 @@
 package com.zkorra.todorestdemo.controllers;
 
 import com.zkorra.todorestdemo.models.TodoItem;
-import com.zkorra.todorestdemo.repositories.TodoItemRepoMock;
-import com.zkorra.todorestdemo.repositories.TodoItemRepository;
+import com.zkorra.todorestdemo.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,22 +13,34 @@ import java.util.List;
 @RequestMapping("/todo")
 public class TodoController {
 
-    private TodoItemRepository repository;
+    private final TodoService todoService;
 
     @Autowired
-    public TodoController(TodoItemRepository repository) {
-        this.repository = repository;
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
     }
 
     @GetMapping
     public ResponseEntity<?> getAllTodos() {
-        List<TodoItem> todoList = repository.findAll();
-        return new ResponseEntity(todoList, HttpStatus.OK);
+        List<TodoItem> todoList = todoService.getAllTodos();
+        return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> saveTodo(@RequestBody TodoItem newTodo) {
-        TodoItem todo = repository.save(newTodo);
-        return new ResponseEntity(todo, HttpStatus.CREATED);
+        TodoItem persistedTodo = todoService.saveTodo(newTodo);
+        return new ResponseEntity<>(persistedTodo, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateTodo(@RequestBody TodoItem updatedTodo) {
+        TodoItem persistedTodo = todoService.updateTodo(updatedTodo);
+        return new ResponseEntity<>(persistedTodo, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTodoById(@PathVariable String id) {
+        todoService.deleteTodoById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
