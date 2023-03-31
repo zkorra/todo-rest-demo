@@ -20,23 +20,39 @@ public class TodoService {
     }
 
     public List<TodoItem> getAllTodos() {
-        List<TodoItem> todoList = repository.findAll();
-        return todoList;
+        return repository.findAll();
     }
 
     public TodoItem saveTodo(TodoItem newTodo) throws BaseException {
+        String todoTask = newTodo.getTask();
 
-        if (newTodo.getDescription() == null) {
-            throw new BaseException("Description is undefined");
+        if (todoTask == null || todoTask.isEmpty()) {
+            throw new BaseException("Task is undefined");
         }
 
-        TodoItem todo = repository.save(newTodo);
-        return todo;
+        newTodo.setId(null);
+        newTodo.setCompleted(false);
+
+        return repository.save(newTodo);
     }
 
     public TodoItem updateTodo(TodoItem updatedTodo) throws BaseException {
-        TodoItem todo = repository.save(updatedTodo);
-        return todo;
+        String todoId = updatedTodo.getId();
+        String todoTask = updatedTodo.getTask();
+
+        if (todoId == null || todoId.isEmpty()) {
+            throw new BaseException("Todo ID is undefined");
+        }
+
+        if(!repository.existsById(todoId)) {
+            throw new NotFoundException("Todo doesn't exist");
+        }
+
+        if (todoTask == null || todoTask.isEmpty()) {
+            throw new BaseException("Task is undefined");
+        }
+
+        return repository.save(updatedTodo);
     }
 
     public void deleteTodoById(String id) throws NotFoundException {
@@ -46,7 +62,6 @@ public class TodoService {
         }
 
         repository.deleteById(id);
-
     }
 
 }

@@ -15,17 +15,13 @@ public class TodoItem {
 
     @Getter
     @Setter
+    private String task;
+
+    @Getter
+    @Setter
     private String description;
 
     @Getter
     @Setter
     private boolean completed;
-
-    public TodoItem() {
-    }
-
-    public TodoItem(String description, boolean completed) {
-        setDescription(description);
-        setCompleted(completed);
-    }
 }
