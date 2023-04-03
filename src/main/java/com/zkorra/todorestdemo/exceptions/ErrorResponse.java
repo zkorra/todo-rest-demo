@@ -7,7 +7,7 @@ import java.util.Date;
 public class ErrorResponse {
 
     @Getter
-    private int statusCode;
+    private int code;
 
     @Getter
     private Date timestamp;
@@ -15,8 +15,8 @@ public class ErrorResponse {
     @Getter
     private String message;
 
-    public ErrorResponse(int statusCode, Date timestamp, String message) {
-        this.statusCode = statusCode;
+    public ErrorResponse(int code, Date timestamp, String message) {
+        this.code = code;
         this.timestamp = timestamp;
         this.message = message;
     }
