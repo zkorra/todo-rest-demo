@@ -1,5 +1,8 @@
 package com.zkorra.todorestdemo.controllers;
 
+import com.zkorra.todorestdemo.dtos.TodoDTO;
+import com.zkorra.todorestdemo.dtos.TodoPostRequestDTO;
+import com.zkorra.todorestdemo.dtos.TodoPutRequestDTO;
 import com.zkorra.todorestdemo.models.TodoItem;
 import com.zkorra.todorestdemo.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +30,19 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveTodo(@RequestBody TodoItem newTodo) {
-        TodoItem persistedTodo = todoService.saveTodo(newTodo);
-        return new ResponseEntity<>(persistedTodo, HttpStatus.CREATED);
+    public ResponseEntity<?> saveTodo(@RequestBody TodoPostRequestDTO todoDTO) {
+        TodoItem savedTodo = todoService.saveTodo(todoDTO);
+        TodoDTO savedTodoDTO = new TodoDTO(savedTodo);
+
+        return new ResponseEntity<>(savedTodoDTO, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<?> updateTodo(@RequestBody TodoItem updatedTodo) {
-        TodoItem persistedTodo = todoService.updateTodo(updatedTodo);
-        return new ResponseEntity<>(persistedTodo, HttpStatus.OK);
+    public ResponseEntity<?> updateTodo(@RequestBody TodoPutRequestDTO todoDTO) {
+        TodoItem updatedTodo = todoService.updateTodo(todoDTO);
+        TodoDTO updatedTodoDTO = new TodoDTO(updatedTodo);
+
+        return new ResponseEntity<>(updatedTodoDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

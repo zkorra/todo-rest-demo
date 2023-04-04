@@ -5,7 +5,9 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+import java.util.Date;
+
+@Document("TodoItem")
 public class TodoItem {
 
     @Id
@@ -24,4 +26,8 @@ public class TodoItem {
     @Getter
     @Setter
     private boolean completed;
+
+    @Getter
+    @Setter
+    private Date timestamp;
 }
