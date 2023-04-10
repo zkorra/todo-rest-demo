@@ -1,6 +1,6 @@
-package com.zkorra.todorestdemo.dtos;
+package com.zkorra.todorestdemo.domain.todoItem.dto;
 
-import com.zkorra.todorestdemo.models.TodoItem;
+import com.zkorra.todorestdemo.domain.todoItem.entity.TodoItem;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +13,8 @@ public class TodoPostRequestDTO {
     @Setter
     private String description;
 
-    public TodoPostRequestDTO() {}
+    public TodoPostRequestDTO() {
+    }
 
     public TodoPostRequestDTO(TodoItem todo) {
         this.task = todo.getTask();
