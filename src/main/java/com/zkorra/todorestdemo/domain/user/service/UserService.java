@@ -4,6 +4,7 @@ import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.exceptions.BaseException;
+import com.zkorra.todorestdemo.exceptions.DuplicateException;
 import com.zkorra.todorestdemo.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,7 +41,7 @@ public class UserService {
         Optional<UserEntity> opt = userRepository.findByEmail(registration.getEmail());
 
         if (opt.isPresent()) {
-            throw new BaseException("The email address is already being used.");
+            throw new DuplicateException("The email address is already being used.");
         }
 
         String encodedPassword = passwordEncoder.encode(registration.getPassword());

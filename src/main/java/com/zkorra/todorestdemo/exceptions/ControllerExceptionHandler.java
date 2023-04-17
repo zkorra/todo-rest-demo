@@ -22,4 +22,10 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<ErrorResponse>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(DuplicateException.class)
+    public  ResponseEntity<ErrorResponse> handleDuplicateException(DuplicateException e) {
+        ErrorResponse response = new ErrorResponse(HttpStatus.CONFLICT.value(), new Date(), e.getMessage());
+        return new ResponseEntity<ErrorResponse>(response, HttpStatus.CONFLICT);
+    }
+
 }
