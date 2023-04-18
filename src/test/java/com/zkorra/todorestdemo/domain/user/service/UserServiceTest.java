@@ -4,6 +4,7 @@ import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.exceptions.DuplicateException;
+import com.zkorra.todorestdemo.security.JwtUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,9 +32,12 @@ public class UserServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private JwtUtils jwtUtils;
+
     @BeforeEach
     public void setUp() {
-        userService = new UserService(userRepository, passwordEncoder);
+        userService = new UserService(userRepository, passwordEncoder, jwtUtils);
     }
 
     @Test

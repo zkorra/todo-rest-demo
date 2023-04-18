@@ -6,6 +6,7 @@ import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.exceptions.BaseException;
 import com.zkorra.todorestdemo.exceptions.DuplicateException;
 import com.zkorra.todorestdemo.exceptions.NotFoundException;
+import com.zkorra.todorestdemo.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,13 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    private UserDto convertEntityToDto(UserEntity userEntity) {
-        return new UserDto(userEntity.getEmail());
+        this.jwtUtils = jwtUtils;
     }
 
     public UserDto register(UserDto.Registration registration) throws BaseException {
@@ -46,9 +45,10 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(registration.getPassword());
 
-        UserEntity userEntity = new UserEntity(registration.getEmail(), encodedPassword, registration.getDisplayName());
-        userRepository.save(userEntity);
-        return convertEntityToDto(userEntity);
+        UserEntity user = new UserEntity(registration.getEmail(), encodedPassword, registration.getDisplayName());
+        userRepository.save(user);
+
+        return new UserDto(user.getEmail(), "");
     }
 
     @Transactional(readOnly = true)
@@ -67,15 +67,15 @@ public class UserService {
             throw new NotFoundException("The account doesn't exist.");
         }
 
-        UserEntity user = opt.get();
+        UserEntity user= opt.get();
 
         if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
             throw new BaseException("Password incorrect.");
         }
 
-        // TODO: Return JWT Token
+        String jwtToken = jwtUtils.generateToken(user);
 
-        return convertEntityToDto(user);
+        return new UserDto(user.getEmail(), jwtToken);
     }
 
 }

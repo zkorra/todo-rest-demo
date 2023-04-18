@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserDto {
     private String email;
+    private String token;
 
     @Getter
     @AllArgsConstructor
@@ -22,5 +23,4 @@ public class UserDto {
         private String email;
         private String password;
     }
-
 }
