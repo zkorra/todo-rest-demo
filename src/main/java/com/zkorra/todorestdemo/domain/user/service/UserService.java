@@ -10,7 +10,6 @@ import com.zkorra.todorestdemo.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -51,7 +50,6 @@ public class UserService {
         return new UserDto(user.getEmail(), "");
     }
 
-    @Transactional(readOnly = true)
     public UserDto login(UserDto.Login login) throws BaseException {
         if (login.getEmail().isEmpty()) {
             throw new NotFoundException("Email is undefined.");
@@ -67,7 +65,7 @@ public class UserService {
             throw new NotFoundException("The account doesn't exist.");
         }
 
-        UserEntity user= opt.get();
+        UserEntity user = opt.get();
 
         if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
             throw new BaseException("Password incorrect.");
