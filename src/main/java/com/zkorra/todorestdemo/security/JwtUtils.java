@@ -15,12 +15,12 @@ public class JwtUtils {
     private String secret;
 
     @Value("${auth.jwt.expireTime}")
-    private long expireTime;
+    private long expireTimeMs;
 
     public String generateToken(UserEntity user) {
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + expireTime * 1000);
+        Date expiryDate = new Date(now.getTime() + expireTimeMs * 1000);
 
         return JWT.create().withClaim("principle", user.getId()).withExpiresAt(expiryDate).sign(getAlgorithm());
     }
