@@ -1,8 +1,9 @@
-package com.zkorra.todorestdemo.domain.user.service;
+package com.zkorra.todorestdemo.domain.user;
 
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
+import com.zkorra.todorestdemo.domain.user.service.UserService;
 import com.zkorra.todorestdemo.exceptions.DuplicateException;
 import com.zkorra.todorestdemo.security.JwtUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -60,5 +60,21 @@ public class UserServiceTest {
         assertThrows(DuplicateException.class, () -> userService.register(registration));
 
         verify(userRepository, times(1)).findByEmail(registration.getEmail());
+    }
+
+    @Test
+    void whenValidLogin_thenReturnUserDto() {
+        UserDto.Login login = new UserDto.Login("test@domain.com", "password");
+
+        UserEntity user = new UserEntity("test@domain.com", "encodedPassword", "display name");
+
+        when(jwtUtils.generateToken(any(UserEntity.class))).thenReturn("jwtToken");
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(login.getPassword(), user.getPassword())).thenReturn(true);
+
+        UserDto actual = userService.login(login);
+
+        assertNotNull(actual.getToken());
+        assertEquals(login.getEmail(), actual.getEmail());
     }
 }

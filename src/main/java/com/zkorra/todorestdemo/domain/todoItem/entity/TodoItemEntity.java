@@ -1,19 +1,22 @@
 package com.zkorra.todorestdemo.domain.todoItem.entity;
 
 import com.zkorra.todorestdemo.domain.common.entity.BaseEntity;
+import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "todo_items")
-public class TodoItem extends BaseEntity {
+public class TodoItemEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String task;
@@ -27,11 +30,7 @@ public class TodoItem extends BaseEntity {
     @Column(nullable = false)
     private Date timestamp;
 
-//    public TodoItem(String id, String task, String description, boolean completed, Date timestamp) {
-//        this.id = id;
-//        this.task = task;
-//        this.description = description;
-//        this.completed = completed;
-//        this.timestamp = timestamp;
-//    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

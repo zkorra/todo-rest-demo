@@ -2,7 +2,7 @@ package com.zkorra.todorestdemo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +15,13 @@ public class JwtAuthFilter extends GenericFilter {
 
     private static final String TOKEN_PREFIX = "Bearer ";
     private final JwtUtils jwtUtils;
+    private final AuthenticationProvider authenticationProvider;
+
 
     @Autowired
-    public JwtAuthFilter(JwtUtils jwtUtils) {
+    public JwtAuthFilter(JwtUtils jwtUtils, AuthenticationProvider authenticationProvider) {
         this.jwtUtils = jwtUtils;
+        this.authenticationProvider = authenticationProvider;
     }
 
     @Override
@@ -39,8 +42,9 @@ public class JwtAuthFilter extends GenericFilter {
             return;
         }
 
-        String userId = jwtUtils.getUserIdFromToken(token);
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userId, null, null);
+        String username = jwtUtils.getUsernameFromToken(token);
+
+        Authentication auth = authenticationProvider.getAuthentication(username);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(servletRequest, servletResponse);

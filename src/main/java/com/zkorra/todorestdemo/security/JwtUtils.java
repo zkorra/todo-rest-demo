@@ -23,7 +23,7 @@ public class JwtUtils {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expireTimeMs * 1000);
 
-        return JWT.create().withSubject(user.getId()).withExpiresAt(expiryDate).sign(getAlgorithm());
+        return JWT.create().withSubject(user.getEmail()).withExpiresAt(expiryDate).sign(getAlgorithm());
     }
 
     public boolean validateToken(String token) {
@@ -35,7 +35,7 @@ public class JwtUtils {
         }
     }
 
-    public String getUserIdFromToken(String token) {
+    public String getUsernameFromToken(String token) {
         DecodedJWT decodedJWT = JWT.require(getAlgorithm()).build().verify(token);
         return decodedJWT.getSubject();
     }

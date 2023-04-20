@@ -1,12 +1,12 @@
 package com.zkorra.todorestdemo.domain.todoItem.controller;
 
-import com.zkorra.todorestdemo.domain.todoItem.dto.TodoDTO;
-import com.zkorra.todorestdemo.domain.todoItem.dto.TodoPostRequestDTO;
-import com.zkorra.todorestdemo.domain.todoItem.entity.TodoItem;
+import com.zkorra.todorestdemo.domain.todoItem.dto.TodoDto;
+import com.zkorra.todorestdemo.domain.todoItem.entity.TodoItemEntity;
 import com.zkorra.todorestdemo.domain.todoItem.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,16 +22,16 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<?> getAllTodos() {
-        Iterable<TodoItem> todoList = todoService.getAllTodos();
+        Iterable<TodoItemEntity> todoList = todoService.getAllTodos();
         return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveTodo(@RequestBody TodoPostRequestDTO todoDTO) {
-        TodoItem savedTodo = todoService.saveTodo(todoDTO);
-        TodoDTO savedTodoDTO = new TodoDTO(savedTodo);
+    public ResponseEntity<?> saveTodo(@RequestBody TodoDto todoDTO) {
+        TodoItemEntity savedTodo = todoService.saveTodo(todoDTO);
+//        TodoDto savedTodoDTO = new TodoDto(savedTodo);
 
-        return new ResponseEntity<>(savedTodoDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
     }
 
 //    @PutMapping
@@ -43,7 +43,7 @@ public class TodoController {
 //    }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTodoById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteTodoById(@PathVariable String id) {
         todoService.deleteTodoById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
