@@ -15,6 +15,6 @@ public class BaseEntity {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @Column(nullable = false)
-    private String id;
+    protected String id;
 
 }

@@ -6,6 +6,7 @@ import com.zkorra.todorestdemo.domain.todoItem.repository.TodoItemRepository;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.exceptions.BaseException;
 import com.zkorra.todorestdemo.exceptions.NotFoundException;
+import com.zkorra.todorestdemo.security.AuthUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class TodoService {
         return repository.findAll();
     }
 
-    public TodoItemEntity saveTodo(TodoDto todoDTO) throws BaseException {
+    public TodoItemEntity saveTodo(TodoDto todoDTO, AuthUserDetails authUserDetails) throws BaseException {
         String todoTask = todoDTO.getTask();
         String todoDescription = todoDTO.getDescription();
 
@@ -33,9 +34,9 @@ public class TodoService {
             throw new BaseException("Task is undefined");
         }
 
-//        UserEntity user = new UserEntity(authUserDetails.getId(), "", "");
+        UserEntity user = new UserEntity(authUserDetails.getId());
 
-        TodoItemEntity newTodo = new TodoItemEntity(todoTask, todoDescription, false, new Date(), null);
+        TodoItemEntity newTodo = new TodoItemEntity(todoTask, todoDescription, false, new Date(), user);
 
         return repository.save(newTodo);
     }

@@ -21,7 +21,7 @@ public class TodoItemEntity extends BaseEntity {
     @Column(nullable = false)
     private String task;
 
-    @Column(nullable = true)
+    @Column()
     private String description;
 
     @Column(nullable = false)
@@ -31,6 +31,6 @@ public class TodoItemEntity extends BaseEntity {
     private Date timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 }

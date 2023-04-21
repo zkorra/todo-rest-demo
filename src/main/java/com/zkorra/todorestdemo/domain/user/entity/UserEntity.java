@@ -26,4 +26,8 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "display_name")
     private String displayName;
+
+    public UserEntity(String id) {
+        this.id = id;
+    }
 }
