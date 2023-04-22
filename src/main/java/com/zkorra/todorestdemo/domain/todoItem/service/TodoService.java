@@ -3,6 +3,7 @@ package com.zkorra.todorestdemo.domain.todoItem.service;
 import com.zkorra.todorestdemo.domain.todoItem.dto.TodoDto;
 import com.zkorra.todorestdemo.domain.todoItem.entity.TodoItemEntity;
 import com.zkorra.todorestdemo.domain.todoItem.repository.TodoItemRepository;
+import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.exceptions.BaseException;
 import com.zkorra.todorestdemo.exceptions.NotFoundException;
@@ -26,7 +27,7 @@ public class TodoService {
         return repository.findAll();
     }
 
-    public TodoItemEntity saveTodo(TodoDto todoDTO, AuthUserDetails authUserDetails) throws BaseException {
+    public TodoDto saveTodo(TodoDto todoDTO, AuthUserDetails authUserDetails) throws BaseException {
         String todoTask = todoDTO.getTask();
         String todoDescription = todoDTO.getDescription();
 
@@ -38,7 +39,9 @@ public class TodoService {
 
         TodoItemEntity newTodo = new TodoItemEntity(todoTask, todoDescription, false, new Date(), user);
 
-        return repository.save(newTodo);
+        repository.save(newTodo);
+
+        return new TodoDto(newTodo.getTask(), newTodo.getDescription());
     }
 
     public void deleteTodoById(String id) throws NotFoundException {

@@ -28,11 +28,8 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveTodo(@RequestBody TodoDto todoDTO, @AuthenticationPrincipal AuthUserDetails authUserDetails) {
-        TodoItemEntity savedTodo = todoService.saveTodo(todoDTO, authUserDetails);
-//        TodoDto savedTodoDTO = new TodoDto(savedTodo);
-
-        return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
+    public ResponseEntity<TodoDto> saveTodo(@RequestBody TodoDto todoDTO, @AuthenticationPrincipal AuthUserDetails authUserDetails) {
+        return ResponseEntity.ok(todoService.saveTodo(todoDTO, authUserDetails));
     }
 
 //    @PutMapping
