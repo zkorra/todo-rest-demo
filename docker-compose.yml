@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  app:
+    image: 'zkorra/todo-rest-demo:latest'
+    container_name: todo-rest-demo
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tododb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=syspass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+
+  db:
+    image: 'postgres:15.2-alpine'
+    container_name: mypostgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=syspass
+      - POSTGRES_DB=tododb
