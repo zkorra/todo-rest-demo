@@ -3,7 +3,6 @@ package com.zkorra.todorestdemo.domain.todoItem.service;
 import com.zkorra.todorestdemo.domain.todoItem.dto.TodoDto;
 import com.zkorra.todorestdemo.domain.todoItem.entity.TodoItemEntity;
 import com.zkorra.todorestdemo.domain.todoItem.repository.TodoItemRepository;
-import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.exceptions.BaseException;
 import com.zkorra.todorestdemo.exceptions.NotFoundException;
