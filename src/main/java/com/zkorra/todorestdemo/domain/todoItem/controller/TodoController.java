@@ -1,7 +1,6 @@
 package com.zkorra.todorestdemo.domain.todoItem.controller;
 
 import com.zkorra.todorestdemo.domain.todoItem.dto.TodoDto;
-import com.zkorra.todorestdemo.domain.todoItem.entity.TodoItemEntity;
 import com.zkorra.todorestdemo.domain.todoItem.service.TodoService;
 import com.zkorra.todorestdemo.security.AuthUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/todo")
@@ -22,9 +23,9 @@ public class TodoController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllTodos() {
-        Iterable<TodoItemEntity> todoList = todoService.getAllTodos();
-        return new ResponseEntity<>(todoList, HttpStatus.OK);
+    public ResponseEntity<List<TodoDto>> getAllTodos() {
+        List<TodoDto> todoList = todoService.getAllTodos();
+        return ResponseEntity.ok(todoList);
     }
 
     @PostMapping

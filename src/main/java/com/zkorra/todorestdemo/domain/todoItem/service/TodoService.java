@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TodoService {
@@ -25,12 +27,9 @@ public class TodoService {
         this.repository = repository;
     }
 
-    public Iterable<TodoItemEntity> getAllTodos() throws BaseException {
-//        List<TodoItemEntity> todoItems = repository.findAll();
-//        TodoItemEntity newTodo = new TodoItemEntity(todoTask, todoDescription, false, new Date(), user);
-
-
-        return repository.findAll();
+    public List<TodoDto> getAllTodos() throws BaseException {
+        List<TodoItemEntity> todoItems = repository.findAll();
+        return todoItems.stream().map(item -> new TodoDto(item.getTask(), item.getDescription(), item.isCompleted(), item.getTimestamp())).collect(Collectors.toList());
     }
 
     public TodoDto saveTodo(TodoDto.Request todoDTO, AuthUserDetails authUserDetails) throws BaseException {
