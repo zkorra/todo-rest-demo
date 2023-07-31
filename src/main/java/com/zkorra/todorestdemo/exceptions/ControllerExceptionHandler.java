@@ -12,20 +12,19 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ErrorResponse> handleBaseException(BaseException e) {
-        ErrorResponse response = new ErrorResponse(HttpStatus.EXPECTATION_FAILED.value(), new Date(), e.getMessage());
-        return new ResponseEntity<ErrorResponse>(response, HttpStatus.EXPECTATION_FAILED);
+        ErrorResponse error = new ErrorResponse(HttpStatus.EXPECTATION_FAILED.value(), new Date(), e.getMessage());
+        return new ResponseEntity<ErrorResponse>(error, HttpStatus.EXPECTATION_FAILED);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e) {
-        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND.value(), new Date(), e.getMessage());
-        return new ResponseEntity<ErrorResponse>(response, HttpStatus.NOT_FOUND);
+        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), new Date(), e.getMessage());
+        return new ResponseEntity<ErrorResponse>(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DuplicateException.class)
-    public  ResponseEntity<ErrorResponse> handleDuplicateException(DuplicateException e) {
-        ErrorResponse response = new ErrorResponse(HttpStatus.CONFLICT.value(), new Date(), e.getMessage());
-        return new ResponseEntity<ErrorResponse>(response, HttpStatus.CONFLICT);
+    public ResponseEntity<ErrorResponse> handleDuplicateException(DuplicateException e) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), new Date(), e.getMessage());
+        return new ResponseEntity<ErrorResponse>(error, HttpStatus.CONFLICT);
     }
-
 }

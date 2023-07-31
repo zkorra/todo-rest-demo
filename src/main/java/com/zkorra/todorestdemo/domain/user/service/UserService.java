@@ -26,7 +26,7 @@ public class UserService {
         this.jwtUtils = jwtUtils;
     }
 
-    public UserDto register(UserDto.Registration registration) throws BaseException {
+    public UserDto register(UserDto.Registration registration) {
 
         if (registration.getEmail().isEmpty()) {
             throw new NotFoundException("Email is undefined.");
@@ -50,7 +50,7 @@ public class UserService {
         return new UserDto(user.getEmail(), "");
     }
 
-    public UserDto login(UserDto.Login login) throws BaseException {
+    public UserDto login(UserDto.Login login) {
         if (login.getEmail().isEmpty()) {
             throw new NotFoundException("Email is undefined.");
         }

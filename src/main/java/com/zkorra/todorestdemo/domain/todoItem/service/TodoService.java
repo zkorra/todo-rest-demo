@@ -32,7 +32,7 @@ public class TodoService {
         return todoItems.stream().map(item -> new TodoDto(item.getTask(), item.getDescription(), item.isCompleted(), item.getTimestamp())).collect(Collectors.toList());
     }
 
-    public TodoDto saveTodo(TodoDto.Request todoDTO, AuthUserDetails authUserDetails) throws BaseException {
+    public TodoDto saveTodo(TodoDto.Request todoDTO, AuthUserDetails authUserDetails) {
         String todoTask = todoDTO.getTask();
         String todoDescription = todoDTO.getDescription();
 
@@ -49,7 +49,7 @@ public class TodoService {
         return new TodoDto(newTodo.getTask(), newTodo.getDescription(), newTodo.isCompleted(), newTodo.getTimestamp());
     }
 
-    public void deleteTodoById(String id) throws NotFoundException {
+    public void deleteTodoById(String id) {
 
         if (!repository.existsById(id)) {
             throw new NotFoundException("Todo doesn't exist");
