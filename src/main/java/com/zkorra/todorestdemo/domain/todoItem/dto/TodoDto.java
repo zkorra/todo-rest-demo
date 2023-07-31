@@ -1,17 +1,19 @@
 package com.zkorra.todorestdemo.domain.todoItem.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class TodoDto {
     private String task;
     private String description;
     private boolean completed;
-    private Date timestamp;
+    private LocalDateTime updatedAt;
 
     @Getter
     @AllArgsConstructor
