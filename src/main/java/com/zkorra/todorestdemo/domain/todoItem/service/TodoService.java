@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,24 +28,40 @@ public class TodoService {
 
     public List<TodoDto> getAllTodos() throws BaseException {
         List<TodoItemEntity> todoItems = repository.findAll();
-        return todoItems.stream().map(item -> new TodoDto(item.getTask(), item.getDescription(), item.isCompleted(), item.getTimestamp())).collect(Collectors.toList());
+        return todoItems.stream()
+                .map(item -> TodoDto.builder()
+                        .task(item.getTask())
+                        .description(item.getDescription())
+                        .completed(item.isCompleted())
+                        .updatedAt(item.getUpdatedAt())
+                        .build())
+                .collect(Collectors.toList());
     }
 
-    public TodoDto saveTodo(TodoDto.Request todoDTO, AuthUserDetails authUserDetails) {
-        String todoTask = todoDTO.getTask();
-        String todoDescription = todoDTO.getDescription();
+    public TodoDto saveTodo(TodoDto.Request todo, AuthUserDetails authUserDetails) {
 
-        if (todoTask == null || todoTask.isEmpty()) {
+        if (todo.getTask() == null || todo.getTask().isEmpty()) {
             throw new BaseException("Task is undefined");
         }
 
-        UserEntity user = new UserEntity(authUserDetails.getId());
+        UserEntity user = UserEntity.builder().id(authUserDetails.getId()).build();
 
-        TodoItemEntity newTodo = new TodoItemEntity(todoTask, todoDescription, false, new Date(), user);
+        TodoItemEntity newTodo = TodoItemEntity.builder()
+                .task(todo.getTask())
+                .description(todo.getDescription())
+                .completed(false)
+                .user(user)
+                .build();
+
 
         repository.save(newTodo);
 
-        return new TodoDto(newTodo.getTask(), newTodo.getDescription(), newTodo.isCompleted(), newTodo.getTimestamp());
+        return TodoDto.builder()
+                .task(newTodo.getTask())
+                .description(newTodo.getDescription())
+                .completed(newTodo.isCompleted())
+                .updatedAt(newTodo.getUpdatedAt())
+                .build();
     }
 
     public void deleteTodoById(String id) {
