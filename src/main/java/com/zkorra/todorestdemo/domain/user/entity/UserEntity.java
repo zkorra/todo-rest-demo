@@ -1,7 +1,7 @@
 package com.zkorra.todorestdemo.domain.user.entity;
 
 import com.zkorra.todorestdemo.domain.common.entity.BaseEntity;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
@@ -26,6 +25,15 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "display_name")
     private String displayName;
+
+
+    @Builder
+    public UserEntity(String id, String email, String password, String displayName) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.displayName = displayName;
+    }
 
     public UserEntity(String id) {
         this.id = id;
