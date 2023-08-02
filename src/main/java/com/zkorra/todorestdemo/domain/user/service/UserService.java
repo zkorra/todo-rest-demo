@@ -6,6 +6,7 @@ import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.exceptions.BaseException;
 import com.zkorra.todorestdemo.exceptions.DuplicateException;
 import com.zkorra.todorestdemo.exceptions.NotFoundException;
+import com.zkorra.todorestdemo.security.AuthUserDetails;
 import com.zkorra.todorestdemo.security.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +80,21 @@ public class UserService {
         if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
             throw new BaseException("Password incorrect.");
         }
+
+        String jwtToken = jwtUtils.generateToken(user);
+
+        return UserDto.builder().email(user.getEmail()).token(jwtToken).displayName(user.getDisplayName()).build();
+    }
+
+    public UserDto currentUser(AuthUserDetails authUserDetails) {
+
+        Optional<UserEntity> opt = userRepository.findById(authUserDetails.getId());
+
+        if (opt.isEmpty()) {
+            throw new NotFoundException("The account doesn't exist.");
+        }
+
+        UserEntity user = opt.get();
 
         String jwtToken = jwtUtils.generateToken(user);
 
