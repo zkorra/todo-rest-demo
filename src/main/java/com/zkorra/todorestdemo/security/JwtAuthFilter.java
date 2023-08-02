@@ -14,14 +14,13 @@ import java.io.IOException;
 public class JwtAuthFilter extends GenericFilter {
 
     private static final String TOKEN_PREFIX = "Bearer ";
-    private final JwtUtils jwtUtils;
     private final AuthenticationProvider authenticationProvider;
-
+    private final JwtUtils jwtUtils;
 
     @Autowired
-    public JwtAuthFilter(JwtUtils jwtUtils, AuthenticationProvider authenticationProvider) {
-        this.jwtUtils = jwtUtils;
+    public JwtAuthFilter(AuthenticationProvider authenticationProvider, JwtUtils jwtUtils) {
         this.authenticationProvider = authenticationProvider;
+        this.jwtUtils = jwtUtils;
     }
 
     @Override
