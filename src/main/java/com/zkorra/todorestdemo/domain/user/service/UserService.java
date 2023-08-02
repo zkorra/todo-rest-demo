@@ -32,7 +32,6 @@ public class UserService {
     }
 
     public UserDto register(UserDto.Registration registration) {
-
         if (registration.getEmail().isEmpty()) {
             throw new NotFoundException("Email is undefined.");
         }
@@ -52,13 +51,12 @@ public class UserService {
         UserEntity user = UserEntity.builder()
                 .email(registration.getEmail())
                 .password(encodedPassword)
+                .displayName("")
                 .build();
 
         userRepository.save(user);
 
-        return UserDto.builder()
-                .email(user.getEmail())
-                .build();
+        return UserDto.builder().email(user.getEmail()).displayName(user.getDisplayName()).build();
     }
 
     public UserDto login(UserDto.Login login) {
@@ -84,11 +82,7 @@ public class UserService {
 
         String jwtToken = jwtUtils.generateToken(user);
 
-        return UserDto.builder()
-                .email(user.getEmail())
-                .token(jwtToken)
-                .displayName(user.getDisplayName())
-                .build();
+        return UserDto.builder().email(user.getEmail()).token(jwtToken).displayName(user.getDisplayName()).build();
     }
 
 }
