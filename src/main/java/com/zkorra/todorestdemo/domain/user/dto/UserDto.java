@@ -13,6 +13,7 @@ public class UserDto {
     private String displayName;
 
     @Getter
+    @Builder
     @AllArgsConstructor
     public static class Registration {
         private String email;
@@ -20,6 +21,7 @@ public class UserDto {
     }
 
     @Getter
+    @Builder
     @AllArgsConstructor
     public static class Login {
         private String email;
