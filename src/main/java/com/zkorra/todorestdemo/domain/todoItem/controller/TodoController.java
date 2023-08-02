@@ -28,6 +28,12 @@ public class TodoController {
         return ResponseEntity.ok(todoList);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TodoDto> getTodoById(@PathVariable String id) {
+        TodoDto todoDto = todoService.getTodoById(id);
+        return ResponseEntity.ok(todoDto);
+    }
+
     @PostMapping
     public ResponseEntity<TodoDto> saveTodo(@RequestBody TodoDto.Request todoDTO, @AuthenticationPrincipal AuthUserDetails authUserDetails) {
         return ResponseEntity.ok(todoService.saveTodo(todoDTO, authUserDetails));

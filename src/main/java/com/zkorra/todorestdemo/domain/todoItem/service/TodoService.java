@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,16 +27,36 @@ public class TodoService {
         this.repository = repository;
     }
 
-    public List<TodoDto> getAllTodos() throws BaseException {
+    public List<TodoDto> getAllTodos() {
         List<TodoItemEntity> todoItems = repository.findAll();
         return todoItems.stream()
                 .map(item -> TodoDto.builder()
+                        .id(item.getId())
                         .task(item.getTask())
                         .description(item.getDescription())
                         .completed(item.isCompleted())
                         .updatedAt(item.getUpdatedAt())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public TodoDto getTodoById(String id) {
+
+        Optional<TodoItemEntity> opt = repository.findById(id);
+
+        if (opt.isEmpty()) {
+            throw new NotFoundException("Todo doesn't exist");
+        }
+
+        TodoItemEntity todoItem = opt.get();
+
+        return TodoDto.builder()
+                .id(todoItem.getId())
+                .task(todoItem.getTask())
+                .description(todoItem.getDescription())
+                .completed(todoItem.isCompleted())
+                .updatedAt(todoItem.getUpdatedAt())
+                .build();
     }
 
     public TodoDto saveTodo(TodoDto.Request todo, AuthUserDetails authUserDetails) {
