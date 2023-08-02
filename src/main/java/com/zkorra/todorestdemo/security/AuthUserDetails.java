@@ -1,19 +1,19 @@
 package com.zkorra.todorestdemo.security;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Getter
 public class AuthUserDetails implements UserDetails {
 
-    @Getter
     private final String id;
-
-    @Getter
     private final String email;
 
+    @Builder
     public AuthUserDetails(String id, String email) {
         this.id = id;
         this.email = email;
