@@ -28,9 +28,9 @@ public class TodoController {
         return ResponseEntity.ok(todoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TodoDto> getTodoById(@PathVariable String id) {
-        TodoDto todoDto = todoService.getTodoById(id);
+    @GetMapping("/{slug}")
+    public ResponseEntity<TodoDto> getTodoBySlug(@PathVariable String slug) {
+        TodoDto todoDto = todoService.getTodoBySlug(slug);
         return ResponseEntity.ok(todoDto);
     }
 

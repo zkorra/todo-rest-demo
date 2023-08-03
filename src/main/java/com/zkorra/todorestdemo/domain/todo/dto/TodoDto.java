@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 public class TodoDto {
-    private String id;
+    private String slug;
     private String task;
     private String description;
     private boolean completed;

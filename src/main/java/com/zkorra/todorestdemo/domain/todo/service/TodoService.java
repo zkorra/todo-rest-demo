@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +32,7 @@ public class TodoService {
         List<TodoEntity> todoItems = repository.findAll();
         return todoItems.stream()
                 .map(item -> TodoDto.builder()
-                        .id(item.getId())
+                        .slug(item.getSlug())
                         .task(item.getTask())
                         .description(item.getDescription())
                         .completed(item.isCompleted())
@@ -40,9 +41,9 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
-    public TodoDto getTodoById(String id) {
+    public TodoDto getTodoBySlug(String slug) {
 
-        Optional<TodoEntity> opt = repository.findById(id);
+        Optional<TodoEntity> opt = repository.findBySlug(slug);
 
         if (opt.isEmpty()) {
             throw new NotFoundException("Todo doesn't exist");
@@ -51,7 +52,7 @@ public class TodoService {
         TodoEntity todoItem = opt.get();
 
         return TodoDto.builder()
-                .id(todoItem.getId())
+                .slug(todoItem.getSlug())
                 .task(todoItem.getTask())
                 .description(todoItem.getDescription())
                 .completed(todoItem.isCompleted())
@@ -67,7 +68,10 @@ public class TodoService {
 
         UserEntity user = UserEntity.builder().id(authUserDetails.getId()).build();
 
+        String slug = randomSlug();
+
         TodoEntity newTodo = TodoEntity.builder()
+                .slug(slug)
                 .task(todo.getTask())
                 .description(todo.getDescription())
                 .completed(false)
@@ -78,6 +82,7 @@ public class TodoService {
         repository.save(newTodo);
 
         return TodoDto.builder()
+                .slug(newTodo.getSlug())
                 .task(newTodo.getTask())
                 .description(newTodo.getDescription())
                 .completed(newTodo.isCompleted())
@@ -92,6 +97,21 @@ public class TodoService {
         }
 
         repository.deleteById(id);
+    }
+
+    /* TODO: Make randomSlug() more user-friendly readable */
+    private static String randomSlug() {
+        String characters = "abcdefghijklmnopqrstuvwxyz1234567890";
+
+        Random rand = new Random();
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < 16; i++) {
+            int index = rand.nextInt(characters.length());
+            result.append(characters.charAt(index));
+        }
+
+        return result.toString();
     }
 
 }
