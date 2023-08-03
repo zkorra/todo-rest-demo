@@ -39,6 +39,7 @@ public class AuthService {
         Optional<UserEntity> opt = userRepository.findByEmail(registration.getEmail());
 
         if (opt.isPresent()) {
+            logger.error("{} is duplicated", opt.get().getEmail());
             throw new ResourceConflictException("there is duplicated user information");
         }
 
@@ -51,6 +52,7 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
+        logger.info("{} registered successfully", user.getEmail());
 
         return UserDto.builder().email(user.getEmail()).displayName(user.getDisplayName()).build();
     }
@@ -76,5 +78,4 @@ public class AuthService {
 
         return UserDto.builder().email(user.getEmail()).token(jwtToken).displayName(user.getDisplayName()).build();
     }
-    
 }
