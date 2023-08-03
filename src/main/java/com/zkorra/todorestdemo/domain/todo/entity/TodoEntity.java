@@ -13,8 +13,11 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "todo_items")
+@Table(name = "todos")
 public class TodoEntity extends BaseEntity {
+
+    @Column(nullable = false)
+    private String slug;
 
     @Column(nullable = false)
     private String task;
@@ -30,8 +33,9 @@ public class TodoEntity extends BaseEntity {
     private UserEntity user;
 
     @Builder
-    public TodoEntity(String id, String task, String description, boolean completed, UserEntity user) {
+    public TodoEntity(String id, String slug, String task, String description, boolean completed, UserEntity user) {
         this.id = id;
+        this.slug = slug;
         this.task = task;
         this.description = description;
         this.completed = completed;
