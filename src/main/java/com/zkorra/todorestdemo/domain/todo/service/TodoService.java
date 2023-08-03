@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 @Service
 public class TodoService {
 
-    private final TodoRepository repository;
+    private final TodoRepository todoRepository;
     private final Logger logger = LoggerFactory.getLogger(TodoService.class);
 
     @Autowired
-    public TodoService(TodoRepository repository) {
-        this.repository = repository;
+    public TodoService(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
     }
 
     public List<TodoDto> getAllTodos() {
@@ -43,7 +43,7 @@ public class TodoService {
 
     public TodoDto getTodoBySlug(String slug) {
 
-        Optional<TodoEntity> opt = repository.findBySlug(slug);
+        Optional<TodoEntity> opt = todoRepository.findBySlug(slug);
 
         if (opt.isEmpty()) {
             throw new NotFoundException("Todo doesn't exist");
@@ -79,7 +79,7 @@ public class TodoService {
                 .build();
 
 
-        repository.save(newTodo);
+        todoRepository.save(newTodo);
 
         return TodoDto.builder()
                 .slug(newTodo.getSlug())
@@ -92,11 +92,11 @@ public class TodoService {
 
     public void deleteTodoById(String id) {
 
-        if (!repository.existsById(id)) {
+        if (!todoRepository.existsById(id)) {
             throw new NotFoundException("Todo doesn't exist");
         }
 
-        repository.deleteById(id);
+        todoRepository.deleteById(id);
     }
 
     /* TODO: Make randomSlug() more user-friendly readable */
