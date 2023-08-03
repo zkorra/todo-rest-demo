@@ -42,7 +42,7 @@ public class WebSecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/register", "/user/login")
+                .antMatchers("/auth/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

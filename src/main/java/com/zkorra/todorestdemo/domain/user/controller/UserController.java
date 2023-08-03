@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -21,16 +19,6 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserDto.Registration registration) {
-        return ResponseEntity.ok(userService.register(registration));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody UserDto.Login login) {
-        return ResponseEntity.ok(userService.login(login));
     }
 
     @GetMapping()

@@ -3,7 +3,7 @@ package com.zkorra.todorestdemo.domain.user;
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
-import com.zkorra.todorestdemo.domain.user.service.UserService;
+import com.zkorra.todorestdemo.domain.user.service.AuthService;
 import com.zkorra.todorestdemo.exceptions.ResourceConflictException;
 import com.zkorra.todorestdemo.exceptions.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.JwtUtils;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 public class UserServiceTest {
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @Mock
     private UserRepository userRepository;
@@ -39,7 +39,7 @@ public class UserServiceTest {
 
     @BeforeEach
     public void setUp() {
-        userService = new UserService(userRepository, passwordEncoder, jwtUtils);
+        authService = new AuthService(userRepository, passwordEncoder, jwtUtils);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class UserServiceTest {
                 .password("password123")
                 .build();
 
-        UserDto actual = userService.register(registration);
+        UserDto actual = authService.register(registration);
 
         verify(userRepository, times(1)).save(any(UserEntity.class));
         verify(passwordEncoder, times(1)).encode(registration.getPassword());
@@ -68,7 +68,7 @@ public class UserServiceTest {
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(new UserEntity()));
 
-        assertThrows(ResourceConflictException.class, () -> userService.register(registration));
+        assertThrows(ResourceConflictException.class, () -> authService.register(registration));
 
         verify(userRepository, times(1)).findByEmail(registration.getEmail());
     }
@@ -83,7 +83,7 @@ public class UserServiceTest {
         when(passwordEncoder.matches(login.getPassword(), user.getPassword())).thenReturn(true);
         when(jwtUtils.generateToken(any(UserEntity.class))).thenReturn("JwtToken");
 
-        UserDto actual = userService.login(login);
+        UserDto actual = authService.login(login);
 
         assertEquals(login.getEmail(), actual.getEmail());
         assertNotNull(actual.getToken());
@@ -93,7 +93,7 @@ public class UserServiceTest {
     void whenNotFoundUserLogin_thenThrow404() {
         UserDto.Login login = UserDto.Login.builder().email("test@test.com").password("password123").build();
 
-        assertThrows(ResourceNotFoundException.class, () -> userService.login(login));
+        assertThrows(ResourceNotFoundException.class, () -> authService.login(login));
         verify(userRepository, times(1)).findByEmail(login.getEmail());
     }
 }
