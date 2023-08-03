@@ -1,8 +1,8 @@
-package com.zkorra.todorestdemo.domain.todoItem.service;
+package com.zkorra.todorestdemo.domain.todo.service;
 
-import com.zkorra.todorestdemo.domain.todoItem.dto.TodoDto;
-import com.zkorra.todorestdemo.domain.todoItem.entity.TodoItemEntity;
-import com.zkorra.todorestdemo.domain.todoItem.repository.TodoItemRepository;
+import com.zkorra.todorestdemo.domain.todo.dto.TodoDto;
+import com.zkorra.todorestdemo.domain.todo.entity.TodoEntity;
+import com.zkorra.todorestdemo.domain.todo.repository.TodoRepository;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.exceptions.BaseException;
 import com.zkorra.todorestdemo.exceptions.NotFoundException;
@@ -19,16 +19,16 @@ import java.util.stream.Collectors;
 @Service
 public class TodoService {
 
-    private final TodoItemRepository repository;
+    private final TodoRepository repository;
     private final Logger logger = LoggerFactory.getLogger(TodoService.class);
 
     @Autowired
-    public TodoService(TodoItemRepository repository) {
+    public TodoService(TodoRepository repository) {
         this.repository = repository;
     }
 
     public List<TodoDto> getAllTodos() {
-        List<TodoItemEntity> todoItems = repository.findAll();
+        List<TodoEntity> todoItems = repository.findAll();
         return todoItems.stream()
                 .map(item -> TodoDto.builder()
                         .id(item.getId())
@@ -42,13 +42,13 @@ public class TodoService {
 
     public TodoDto getTodoById(String id) {
 
-        Optional<TodoItemEntity> opt = repository.findById(id);
+        Optional<TodoEntity> opt = repository.findById(id);
 
         if (opt.isEmpty()) {
             throw new NotFoundException("Todo doesn't exist");
         }
 
-        TodoItemEntity todoItem = opt.get();
+        TodoEntity todoItem = opt.get();
 
         return TodoDto.builder()
                 .id(todoItem.getId())
@@ -67,7 +67,7 @@ public class TodoService {
 
         UserEntity user = UserEntity.builder().id(authUserDetails.getId()).build();
 
-        TodoItemEntity newTodo = TodoItemEntity.builder()
+        TodoEntity newTodo = TodoEntity.builder()
                 .task(todo.getTask())
                 .description(todo.getDescription())
                 .completed(false)

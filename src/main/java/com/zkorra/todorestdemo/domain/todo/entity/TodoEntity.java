@@ -1,4 +1,4 @@
-package com.zkorra.todorestdemo.domain.todoItem.entity;
+package com.zkorra.todorestdemo.domain.todo.entity;
 
 import com.zkorra.todorestdemo.domain.common.entity.BaseEntity;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "todo_items")
-public class TodoItemEntity extends BaseEntity {
+public class TodoEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String task;
@@ -30,7 +30,7 @@ public class TodoItemEntity extends BaseEntity {
     private UserEntity user;
 
     @Builder
-    public TodoItemEntity(String id, String task, String description, boolean completed, UserEntity user) {
+    public TodoEntity(String id, String task, String description, boolean completed, UserEntity user) {
         this.id = id;
         this.task = task;
         this.description = description;

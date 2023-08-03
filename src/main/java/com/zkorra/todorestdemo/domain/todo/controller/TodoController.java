@@ -1,7 +1,7 @@
-package com.zkorra.todorestdemo.domain.todoItem.controller;
+package com.zkorra.todorestdemo.domain.todo.controller;
 
-import com.zkorra.todorestdemo.domain.todoItem.dto.TodoDto;
-import com.zkorra.todorestdemo.domain.todoItem.service.TodoService;
+import com.zkorra.todorestdemo.domain.todo.dto.TodoDto;
+import com.zkorra.todorestdemo.domain.todo.service.TodoService;
 import com.zkorra.todorestdemo.security.AuthUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

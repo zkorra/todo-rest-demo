@@ -1,4 +1,4 @@
-package com.zkorra.todorestdemo.domain.todoItem.dto;
+package com.zkorra.todorestdemo.domain.todo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
