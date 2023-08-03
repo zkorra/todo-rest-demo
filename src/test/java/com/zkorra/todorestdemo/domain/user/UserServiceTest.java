@@ -4,8 +4,8 @@ import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.domain.user.service.UserService;
-import com.zkorra.todorestdemo.exceptions.DuplicateException;
-import com.zkorra.todorestdemo.exceptions.NotFoundException;
+import com.zkorra.todorestdemo.exceptions.ResourceConflictException;
+import com.zkorra.todorestdemo.exceptions.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.JwtUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +68,7 @@ public class UserServiceTest {
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(new UserEntity()));
 
-        assertThrows(DuplicateException.class, () -> userService.register(registration));
+        assertThrows(ResourceConflictException.class, () -> userService.register(registration));
 
         verify(userRepository, times(1)).findByEmail(registration.getEmail());
     }
@@ -93,7 +93,7 @@ public class UserServiceTest {
     void whenNotFoundUserLogin_thenThrow404() {
         UserDto.Login login = UserDto.Login.builder().email("test@test.com").password("password123").build();
 
-        assertThrows(NotFoundException.class, () -> userService.login(login));
+        assertThrows(ResourceNotFoundException.class, () -> userService.login(login));
         verify(userRepository, times(1)).findByEmail(login.getEmail());
     }
 }

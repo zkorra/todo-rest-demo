@@ -3,9 +3,9 @@ package com.zkorra.todorestdemo.domain.user.service;
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
-import com.zkorra.todorestdemo.exceptions.BaseException;
-import com.zkorra.todorestdemo.exceptions.DuplicateException;
-import com.zkorra.todorestdemo.exceptions.NotFoundException;
+import com.zkorra.todorestdemo.exceptions.InvalidInputException;
+import com.zkorra.todorestdemo.exceptions.ResourceConflictException;
+import com.zkorra.todorestdemo.exceptions.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.AuthUserDetails;
 import com.zkorra.todorestdemo.security.JwtUtils;
 import org.slf4j.Logger;
@@ -33,18 +33,15 @@ public class UserService {
     }
 
     public UserDto register(UserDto.Registration registration) {
-        if (registration.getEmail().isEmpty()) {
-            throw new NotFoundException("Email is undefined.");
-        }
 
-        if (registration.getPassword().isEmpty()) {
-            throw new NotFoundException("Password is undefined.");
+        if (registration.getEmail().isEmpty() || registration.getPassword().isEmpty()) {
+            throw new InvalidInputException("registration information is invalid");
         }
 
         Optional<UserEntity> opt = userRepository.findByEmail(registration.getEmail());
 
         if (opt.isPresent()) {
-            throw new DuplicateException("The email address is already being used.");
+            throw new ResourceConflictException("there is duplicated user information");
         }
 
         String encodedPassword = passwordEncoder.encode(registration.getPassword());
@@ -61,24 +58,20 @@ public class UserService {
     }
 
     public UserDto login(UserDto.Login login) {
-        if (login.getEmail().isEmpty()) {
-            throw new NotFoundException("Email is undefined.");
-        }
-
-        if (login.getPassword().isEmpty()) {
-            throw new NotFoundException("Password is undefined.");
+        if (login.getEmail().isEmpty() || login.getPassword().isEmpty()) {
+            throw new InvalidInputException("login information is invalid");
         }
 
         Optional<UserEntity> opt = userRepository.findByEmail(login.getEmail());
 
         if (opt.isEmpty()) {
-            throw new NotFoundException("The account doesn't exist.");
+            throw new ResourceNotFoundException("user not found");
         }
 
         UserEntity user = opt.get();
 
         if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
-            throw new BaseException("Password incorrect.");
+            throw new InvalidInputException("password is incorrect");
         }
 
         String jwtToken = jwtUtils.generateToken(user);
@@ -91,7 +84,7 @@ public class UserService {
         Optional<UserEntity> opt = userRepository.findById(authUserDetails.getId());
 
         if (opt.isEmpty()) {
-            throw new NotFoundException("The account doesn't exist.");
+            throw new ResourceNotFoundException("user not found");
         }
 
         UserEntity user = opt.get();

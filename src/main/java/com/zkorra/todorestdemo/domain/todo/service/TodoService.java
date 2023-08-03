@@ -4,8 +4,8 @@ import com.zkorra.todorestdemo.domain.todo.dto.TodoDto;
 import com.zkorra.todorestdemo.domain.todo.entity.TodoEntity;
 import com.zkorra.todorestdemo.domain.todo.repository.TodoRepository;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
-import com.zkorra.todorestdemo.exceptions.BaseException;
-import com.zkorra.todorestdemo.exceptions.NotFoundException;
+import com.zkorra.todorestdemo.exceptions.InvalidInputException;
+import com.zkorra.todorestdemo.exceptions.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.AuthUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class TodoService {
     }
 
     public List<TodoDto> getAllTodos() {
-        List<TodoEntity> todoItems = repository.findAll();
+        List<TodoEntity> todoItems = todoRepository.findAll();
         return todoItems.stream()
                 .map(item -> TodoDto.builder()
                         .slug(item.getSlug())
@@ -46,7 +46,7 @@ public class TodoService {
         Optional<TodoEntity> opt = todoRepository.findBySlug(slug);
 
         if (opt.isEmpty()) {
-            throw new NotFoundException("Todo doesn't exist");
+            throw new ResourceNotFoundException("todo not found");
         }
 
         TodoEntity todoItem = opt.get();
@@ -63,7 +63,7 @@ public class TodoService {
     public TodoDto saveTodo(TodoDto.Request todo, AuthUserDetails authUserDetails) {
 
         if (todo.getTask() == null || todo.getTask().isEmpty()) {
-            throw new BaseException("Task is undefined");
+            throw new InvalidInputException("todo information is invalid");
         }
 
         UserEntity user = UserEntity.builder().id(authUserDetails.getId()).build();
@@ -77,7 +77,6 @@ public class TodoService {
                 .completed(false)
                 .user(user)
                 .build();
-
 
         todoRepository.save(newTodo);
 
@@ -93,7 +92,7 @@ public class TodoService {
     public void deleteTodoById(String id) {
 
         if (!todoRepository.existsById(id)) {
-            throw new NotFoundException("Todo doesn't exist");
+            throw new ResourceNotFoundException("todo not found");
         }
 
         todoRepository.deleteById(id);

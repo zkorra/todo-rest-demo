@@ -9,22 +9,24 @@ import java.util.Date;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
-
-    @ExceptionHandler(BaseException.class)
-    public ResponseEntity<ErrorMessage> handleBaseException(BaseException e) {
-        ErrorMessage error = new ErrorMessage(HttpStatus.EXPECTATION_FAILED.value(), new Date(), e.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.EXPECTATION_FAILED);
+    
+    @ExceptionHandler(InvalidInputException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidInputException(InvalidInputException e) {
+        return responseErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorMessage> handleNotFoundException(NotFoundException e) {
-        ErrorMessage error = new ErrorMessage(HttpStatus.NOT_FOUND.value(), new Date(), e.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
+        return responseErrorMessage(HttpStatus.NOT_FOUND, e.getMessage());
     }
 
-    @ExceptionHandler(DuplicateException.class)
-    public ResponseEntity<ErrorMessage> handleDuplicateException(DuplicateException e) {
-        ErrorMessage error = new ErrorMessage(HttpStatus.CONFLICT.value(), new Date(), e.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    @ExceptionHandler(ResourceConflictException.class)
+    public ResponseEntity<ErrorResponse> handleResourceConflictException(ResourceConflictException e) {
+        return responseErrorMessage(HttpStatus.CONFLICT, e.getMessage());
+    }
+
+    private ResponseEntity<ErrorResponse> responseErrorMessage(HttpStatus status, String message) {
+        ErrorResponse error = new ErrorResponse(status.value(), new Date(), message);
+        return new ResponseEntity<>(error, status);
     }
 }
