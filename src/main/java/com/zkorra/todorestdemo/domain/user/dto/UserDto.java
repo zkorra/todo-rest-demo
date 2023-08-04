@@ -22,6 +22,7 @@ public class UserDto {
     public static class Registration {
 
         @NotEmpty
+        @Size(min = 6, max = 64)
         @Email
         private String email;
 
@@ -36,6 +37,7 @@ public class UserDto {
     public static class Login {
 
         @NotEmpty
+        @Size(min = 6, max = 64)
         @Email
         private String email;
 
@@ -49,13 +51,14 @@ public class UserDto {
     @AllArgsConstructor
     public static class Update {
 
-        @Size(min = 1, max = 64)
+        @Size(min = 6, max = 64)
         @Email
         private String email;
 
         @Size(min = 8, max = 64)
         private String password;
 
+        @Size(max = 64)
         private String displayName;
     }
 }
