@@ -3,12 +3,10 @@ package com.zkorra.todorestdemo.domain.user.service;
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
-import com.zkorra.todorestdemo.exceptions.InvalidInputException;
 import com.zkorra.todorestdemo.exceptions.ResourceConflictException;
 import com.zkorra.todorestdemo.exceptions.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.AuthUserDetails;
 import com.zkorra.todorestdemo.security.JwtUtils;
-import com.zkorra.todorestdemo.validator.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +53,9 @@ public class UserService {
 
         if (updateInfo.getEmail() != null && !updateInfo.getEmail().equals(user.getEmail())) {
 
-            if (!EmailValidator.isValid(updateInfo.getEmail())) {
-                throw new InvalidInputException("email is invalid");
-            }
+//            if (!EmailValidator.isValid(updateInfo.getEmail())) {
+//                throw new InvalidInputException("email is invalid");
+//            }
 
             userRepository.findByEmail(updateInfo.getEmail()).ifPresent((found) -> {
                 throw new ResourceConflictException("there is duplicated user email");

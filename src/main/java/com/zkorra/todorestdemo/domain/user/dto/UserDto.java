@@ -1,5 +1,6 @@
 package com.zkorra.todorestdemo.domain.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,8 +54,15 @@ public class UserDto {
     @Builder
     @AllArgsConstructor
     public static class Update {
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @Email
         private String email;
+
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        @Size(min = 8, max = 64)
         private String password;
+
         private String displayName;
     }
 }
