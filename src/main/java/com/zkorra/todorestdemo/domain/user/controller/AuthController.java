@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
@@ -21,12 +23,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserDto.Registration registration) {
+    public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto.Registration registration) {
         return ResponseEntity.ok(authService.register(registration));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody UserDto.Login login) {
+    public ResponseEntity<UserDto> login(@RequestBody @Valid UserDto.Login login) {
         return ResponseEntity.ok(authService.login(login));
     }
 }

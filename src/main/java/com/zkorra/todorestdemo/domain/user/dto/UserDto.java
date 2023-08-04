@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -16,7 +20,13 @@ public class UserDto {
     @Builder
     @AllArgsConstructor
     public static class Registration {
+
+        @NotNull
+        @Email
         private String email;
+
+        @NotNull
+        @Size(min = 8, max = 64)
         private String password;
     }
 
@@ -24,7 +34,13 @@ public class UserDto {
     @Builder
     @AllArgsConstructor
     public static class Login {
+
+        @NotNull
+        @Email
         private String email;
+
+        @NotNull
+        @Size(min = 8, max = 64)
         private String password;
     }
 
