@@ -52,11 +52,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("user not found"));
 
         if (updateInfo.getEmail() != null && !updateInfo.getEmail().equals(user.getEmail())) {
-
-//            if (!EmailValidator.isValid(updateInfo.getEmail())) {
-//                throw new InvalidInputException("email is invalid");
-//            }
-
+            
             userRepository.findByEmail(updateInfo.getEmail()).ifPresent((found) -> {
                 throw new ResourceConflictException("there is duplicated user email");
             });
