@@ -7,7 +7,6 @@ import com.zkorra.todorestdemo.exceptions.InvalidInputException;
 import com.zkorra.todorestdemo.exceptions.ResourceConflictException;
 import com.zkorra.todorestdemo.exceptions.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.JwtUtils;
-import com.zkorra.todorestdemo.validator.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,21 +32,12 @@ public class AuthService {
 
     public UserDto register(UserDto.Registration registration) {
 
-        if (registration.getEmail().isEmpty() || registration.getPassword().isEmpty()) {
-            throw new InvalidInputException("registration information is invalid");
-        }
-
-        if (!EmailValidator.isValid(registration.getEmail())) {
-            throw new InvalidInputException("email is invalid");
-        }
-
         Optional<UserEntity> opt = userRepository.findByEmail(registration.getEmail());
 
         if (opt.isPresent()) {
             logger.error("{} is duplicated", opt.get().getEmail());
             throw new ResourceConflictException("there is duplicated user information");
         }
-
 
         String encodedPassword = passwordEncoder.encode(registration.getPassword());
 
@@ -64,9 +54,6 @@ public class AuthService {
     }
 
     public UserDto login(UserDto.Login login) {
-        if (login.getEmail().isEmpty() || login.getPassword().isEmpty()) {
-            throw new InvalidInputException("login information is invalid");
-        }
 
         Optional<UserEntity> opt = userRepository.findByEmail(login.getEmail());
 
