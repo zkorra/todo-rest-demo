@@ -9,7 +9,7 @@ import java.util.Date;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
-    
+
     @ExceptionHandler(InvalidInputException.class)
     public ResponseEntity<ErrorResponse> handleInvalidInputException(InvalidInputException e) {
         return responseErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -23,6 +23,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ResourceConflictException.class)
     public ResponseEntity<ErrorResponse> handleResourceConflictException(ResourceConflictException e) {
         return responseErrorMessage(HttpStatus.CONFLICT, e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+        return responseErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "internal server error");
     }
 
     private ResponseEntity<ErrorResponse> responseErrorMessage(HttpStatus status, String message) {
