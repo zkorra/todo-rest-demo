@@ -27,4 +27,13 @@ public class UserDto {
         private String email;
         private String password;
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class Update {
+        private String email;
+        private String password;
+        private String displayName;
+    }
 }
