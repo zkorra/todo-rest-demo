@@ -1,5 +1,6 @@
 package com.zkorra.todorestdemo.domain.user.service;
 
+import com.zkorra.todorestdemo.domain.todo.repository.TodoRepository;
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
@@ -12,12 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final TodoRepository todoRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
 
@@ -25,8 +28,9 @@ public class UserService {
 
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+    public UserService(UserRepository userRepository, TodoRepository todoRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
+        this.todoRepository = todoRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
     }
@@ -71,6 +75,20 @@ public class UserService {
         userRepository.save(user);
 
         return UserDto.builder().email(user.getEmail()).displayName(user.getDisplayName()).build();
+    }
+
+    @Transactional
+    public void deleteUser(AuthUserDetails authUserDetails) {
+        UserEntity user = userRepository.findById(authUserDetails.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("user not found"));
+
+        int deleted = todoRepository.deleteTodosByUserId(user.getId());
+
+        logger.info("deleted {} todos", deleted);
+
+        userRepository.deleteById(user.getId());
+
+        logger.info("deleted user {}", user.getEmail());
     }
 
 }
