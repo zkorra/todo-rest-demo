@@ -1,4 +1,4 @@
-package com.zkorra.todorestdemo.exceptions;
+package com.zkorra.todorestdemo.exception;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;

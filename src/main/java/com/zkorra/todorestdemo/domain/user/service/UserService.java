@@ -3,8 +3,8 @@ package com.zkorra.todorestdemo.domain.user.service;
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
-import com.zkorra.todorestdemo.exceptions.ResourceConflictException;
-import com.zkorra.todorestdemo.exceptions.ResourceNotFoundException;
+import com.zkorra.todorestdemo.exception.ResourceConflictException;
+import com.zkorra.todorestdemo.exception.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.AuthUserDetails;
 import com.zkorra.todorestdemo.security.JwtUtils;
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("user not found"));
 
         if (updateInfo.getEmail() != null && !updateInfo.getEmail().equals(user.getEmail())) {
-            
+
             userRepository.findByEmail(updateInfo.getEmail()).ifPresent((found) -> {
                 throw new ResourceConflictException("there is duplicated user email");
             });

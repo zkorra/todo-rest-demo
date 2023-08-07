@@ -1,4 +1,4 @@
-package com.zkorra.todorestdemo.exceptions;
+package com.zkorra.todorestdemo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

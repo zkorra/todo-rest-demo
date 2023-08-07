@@ -1,4 +1,4 @@
-package com.zkorra.todorestdemo.exceptions;
+package com.zkorra.todorestdemo.exception;
 
 public class InvalidInputException extends RuntimeException {
     public InvalidInputException(String message) {
