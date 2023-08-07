@@ -82,13 +82,7 @@ public class UserService {
         UserEntity user = userRepository.findById(authUserDetails.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("user not found"));
 
-        int deleted = todoRepository.deleteTodosByUserId(user.getId());
-
-        logger.info("deleted {} todos", deleted);
-
         userRepository.deleteById(user.getId());
-
-        logger.info("deleted user {}", user.getEmail());
     }
 
 }

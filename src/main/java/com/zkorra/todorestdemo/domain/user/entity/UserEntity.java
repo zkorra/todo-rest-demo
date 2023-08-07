@@ -1,14 +1,14 @@
 package com.zkorra.todorestdemo.domain.user.entity;
 
 import com.zkorra.todorestdemo.domain.common.entity.BaseEntity;
+import com.zkorra.todorestdemo.domain.todo.entity.TodoEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +25,9 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "display_name")
     private String displayName;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TodoEntity> todoList;
 
     @Builder
     public UserEntity(String id, String email, String password, String displayName) {
