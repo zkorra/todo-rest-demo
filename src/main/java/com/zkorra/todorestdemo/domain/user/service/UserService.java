@@ -1,6 +1,5 @@
 package com.zkorra.todorestdemo.domain.user.service;
 
-import com.zkorra.todorestdemo.domain.todo.repository.TodoRepository;
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
@@ -20,7 +19,6 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final TodoRepository todoRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
 
@@ -28,9 +26,8 @@ public class UserService {
 
 
     @Autowired
-    public UserService(UserRepository userRepository, TodoRepository todoRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
-        this.todoRepository = todoRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
     }
