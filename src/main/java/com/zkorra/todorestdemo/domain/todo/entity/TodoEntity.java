@@ -1,6 +1,7 @@
 package com.zkorra.todorestdemo.domain.todo.entity;
 
 import com.zkorra.todorestdemo.domain.common.entity.BaseEntity;
+import com.zkorra.todorestdemo.domain.tag.entity.TagEntity;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +29,9 @@ public class TodoEntity extends BaseEntity {
 
     @Column(nullable = false)
     private boolean completed;
+    
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TagEntity> tagList;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
