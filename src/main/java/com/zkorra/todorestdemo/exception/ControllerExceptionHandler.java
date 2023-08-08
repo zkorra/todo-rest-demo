@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,16 @@ public class ControllerExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .map(error -> String.format("%s %s", error.getField(), error.getDefaultMessage()))
+                .collect(Collectors.toList());
+        return responseErrorMessage(HttpStatus.BAD_REQUEST, messages);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
+        List<String> messages = e.getConstraintViolations()
+                .stream()
+                .map(violation -> String.format("%s %s %s", violation.getRootBeanClass()
+                        .getName(), violation.getPropertyPath(), violation.getMessage()))
                 .collect(Collectors.toList());
         return responseErrorMessage(HttpStatus.BAD_REQUEST, messages);
     }
