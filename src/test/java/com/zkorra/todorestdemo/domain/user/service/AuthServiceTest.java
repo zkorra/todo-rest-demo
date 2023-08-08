@@ -1,9 +1,8 @@
-package com.zkorra.todorestdemo.domain.user;
+package com.zkorra.todorestdemo.domain.user.service;
 
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
-import com.zkorra.todorestdemo.domain.user.service.AuthService;
 import com.zkorra.todorestdemo.exception.ResourceConflictException;
 import com.zkorra.todorestdemo.exception.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.JwtUtils;
@@ -23,7 +22,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class AuthServiceTest {
 
     @Autowired
     private AuthService authService;
