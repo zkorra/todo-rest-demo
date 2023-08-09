@@ -54,7 +54,7 @@ public class AuthServiceTest {
         verify(passwordEncoder, times(1)).encode(registration.getPassword());
 
         assertEquals(registration.getEmail(), actual.getEmail());
-        assertEquals(actual.getDisplayName(), "");
+        assertEquals("", actual.getDisplayName());
         assertNull(actual.getToken());
     }
 
