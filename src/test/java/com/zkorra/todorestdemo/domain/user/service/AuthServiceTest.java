@@ -6,12 +6,11 @@ import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.exception.ResourceConflictException;
 import com.zkorra.todorestdemo.exception.ResourceNotFoundException;
 import com.zkorra.todorestdemo.security.JwtUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -24,7 +23,10 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
 
-    @Autowired
+//    @Autowired
+//    private AuthService authService;
+
+    @InjectMocks
     private AuthService authService;
 
     @Mock
@@ -36,10 +38,10 @@ public class AuthServiceTest {
     @Mock
     private JwtUtils jwtUtils;
 
-    @BeforeEach
-    public void setUp() {
-        authService = new AuthService(userRepository, passwordEncoder, jwtUtils);
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        authService = new AuthService(userRepository, passwordEncoder, jwtUtils);
+//    }
 
     @Test
     void whenValidRegistration_thenSaveUserAndReturnUserDto() {
