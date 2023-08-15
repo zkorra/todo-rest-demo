@@ -64,7 +64,7 @@ public class AuthService {
         UserEntity user = opt.get();
 
         if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
-            throw new InvalidInputException("password is incorrect");
+            throw new InvalidInputException("email or password is incorrect");
         }
 
         String jwtToken = jwtUtils.generateToken(user);
