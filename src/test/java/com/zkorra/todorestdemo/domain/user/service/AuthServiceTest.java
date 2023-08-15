@@ -23,9 +23,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
 
-//    @Autowired
-//    private AuthService authService;
-
     @InjectMocks
     private AuthService authService;
 
@@ -37,11 +34,6 @@ public class AuthServiceTest {
 
     @Mock
     private JwtUtils jwtUtils;
-
-//    @BeforeEach
-//    public void setUp() {
-//        authService = new AuthService(userRepository, passwordEncoder, jwtUtils);
-//    }
 
     @Test
     void whenValidRegistration_thenSaveUserAndReturnUserDto() {
@@ -61,7 +53,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void whenDuplicatedUserRegistration_thenThrowDuplicationException() {
+    void whenDuplicatedUserRegistration_thenThrowResourceConflictException() {
         UserDto.Registration registration = UserDto.Registration.builder()
                 .email("test@test.com")
                 .password("password123")
