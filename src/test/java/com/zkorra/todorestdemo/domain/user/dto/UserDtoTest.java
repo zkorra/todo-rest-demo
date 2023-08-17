@@ -23,8 +23,8 @@ public class UserDtoTest {
 
     @Test
     void whenEmptyEmailOrPasswordRegistration_thenValidationFail() {
-        UserDto.Registration user = UserDto.Registration.builder().email("").password("").build();
-        Set<ConstraintViolation<UserDto.Registration>> violations = this.validator.validate(user);
+        UserRegistrationDto registration = new UserRegistrationDto("", "");
+        Set<ConstraintViolation<UserRegistrationDto>> violations = this.validator.validate(registration);
 
         boolean invalidEmail = violations.stream()
                 .anyMatch(violation -> violation.getPropertyPath()
@@ -42,8 +42,8 @@ public class UserDtoTest {
 
     @Test
     void whenNullEmailOrPasswordRegistration_thenValidationFail() {
-        UserDto.Registration user = UserDto.Registration.builder().build();
-        Set<ConstraintViolation<UserDto.Registration>> violations = this.validator.validate(user);
+        UserRegistrationDto registration = new UserRegistrationDto();
+        Set<ConstraintViolation<UserRegistrationDto>> violations = this.validator.validate(registration);
 
         boolean invalidEmail = violations.stream()
                 .anyMatch(violation -> violation.getPropertyPath()
@@ -61,13 +61,13 @@ public class UserDtoTest {
 
     @Test
     void whenInvalidEmail_thenValidationFail() {
-        UserDto.Registration user = UserDto.Registration.builder().email("my-email.com").build();
-        Set<ConstraintViolation<UserDto.Registration>> violations = this.validator.validate(user);
+        UserRegistrationDto registration = new UserRegistrationDto("my-email.com", null);
+        Set<ConstraintViolation<UserRegistrationDto>> violations = this.validator.validate(registration);
 
         boolean invalidEmail = violations.stream()
                 .anyMatch(violation -> violation.getPropertyPath()
                         .toString()
-                        .equals("email") && violation.getInvalidValue().toString().equals(user.getEmail()));
+                        .equals("email") && violation.getInvalidValue().toString().equals(registration.getEmail()));
 
         assertTrue(invalidEmail);
     }

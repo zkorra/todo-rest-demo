@@ -1,6 +1,8 @@
 package com.zkorra.todorestdemo.domain.user.service;
 
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
+import com.zkorra.todorestdemo.domain.user.dto.UserLoginDto;
+import com.zkorra.todorestdemo.domain.user.dto.UserRegistrationDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.exception.ResourceConflictException;
@@ -37,11 +39,7 @@ public class AuthServiceTest {
 
     @Test
     void whenValidRegistration_thenSaveUserAndReturnUserDto() {
-        UserDto.Registration registration = UserDto.Registration.builder()
-                .email("test@test.com")
-                .password("password123")
-                .build();
-
+        UserRegistrationDto registration = new UserRegistrationDto("test@test.com", "password123");
         UserDto actual = authService.register(registration);
 
         verify(userRepository, times(1)).save(any(UserEntity.class));
@@ -54,10 +52,7 @@ public class AuthServiceTest {
 
     @Test
     void whenDuplicatedUserRegistration_thenThrowResourceConflictException() {
-        UserDto.Registration registration = UserDto.Registration.builder()
-                .email("test@test.com")
-                .password("password123")
-                .build();
+        UserRegistrationDto registration = new UserRegistrationDto("test@test.com", "password123");
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(new UserEntity()));
 
@@ -68,9 +63,8 @@ public class AuthServiceTest {
 
     @Test
     void whenValidLogin_thenReturnUserDto() {
-        UserDto.Login login = UserDto.Login.builder().email("test@test.com").password("password123").build();
-
-        UserEntity user = UserEntity.builder().email("test@test.com").password("encodedPassword").build();
+        UserLoginDto login = new UserLoginDto("test@test.com", "password123");
+        UserEntity user = new UserEntity("test@test.com", "encodedPassword", "");
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(login.getPassword(), user.getPassword())).thenReturn(true);
@@ -84,7 +78,7 @@ public class AuthServiceTest {
 
     @Test
     void whenNotFoundUserLogin_thenThrow404() {
-        UserDto.Login login = UserDto.Login.builder().email("test@test.com").password("password123").build();
+        UserLoginDto login = new UserLoginDto("test@test.com", "password123");
 
         assertThrows(ResourceNotFoundException.class, () -> authService.login(login));
         verify(userRepository, times(1)).findByEmail(login.getEmail());

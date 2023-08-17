@@ -1,7 +1,6 @@
 package com.zkorra.todorestdemo.domain.todo.service;
 
 
-import com.zkorra.todorestdemo.domain.todo.dto.TodoDto;
 import com.zkorra.todorestdemo.domain.todo.entity.TodoEntity;
 import com.zkorra.todorestdemo.domain.todo.repository.TodoRepository;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ public class TodoServiceTest {
 
     @Test
     void whenValidTodoCreation_thenReturnTodoDto() {
-        TodoDto.Request todo = TodoDto.Request.builder().task("todo1").description("description").build();
+//        TodoDto.Request todo = TodoDto.Request.builder().task("todo1").description("description").build();
 
 //        UserDto actual = todoService.saveTodo(todo);
 

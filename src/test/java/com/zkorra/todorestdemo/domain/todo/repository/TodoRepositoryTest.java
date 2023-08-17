@@ -32,10 +32,10 @@ public class TodoRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        savedUser = userRepository.save(UserEntity.builder().email("user@test.com").password("password").build());
+        savedUser = userRepository.save(new UserEntity("user@test.com", "password", ""));
 
-        todo1 = TodoEntity.builder().slug("todo1").task("task1").description("").user(savedUser).build();
-        todo2 = TodoEntity.builder().slug("todo2").task("task2").description("").user(savedUser).build();
+        todo1 = new TodoEntity("slug1", "task1", "desc1", false, savedUser);
+        todo2 = new TodoEntity("slug2", "task2", "desc2", false, savedUser);
 
         todoRepository.saveAll(List.of(todo1, todo2));
     }

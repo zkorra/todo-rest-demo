@@ -14,6 +14,14 @@ public class UserRegistrationDto {
     @Size(min = 8, max = 64)
     private String password;
 
+    public UserRegistrationDto() {
+    }
+
+    public UserRegistrationDto(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+    
     public String getEmail() {
         return email;
     }
