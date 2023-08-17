@@ -1,22 +1,27 @@
 package com.zkorra.todorestdemo.security;
 
-import lombok.Builder;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-@Getter
 public class AuthUserDetails implements UserDetails {
 
-    private final String id;
-    private final String email;
-
-    @Builder
     public AuthUserDetails(String id, String email) {
         this.id = id;
         this.email = email;
+    }
+
+    private final String id;
+
+    public String getId() {
+        return this.id;
+    }
+
+    private final String email;
+
+    public String getEmail() {
+        return this.email;
     }
 
     @Override
@@ -31,7 +36,7 @@ public class AuthUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return this.email;
     }
 
     @Override

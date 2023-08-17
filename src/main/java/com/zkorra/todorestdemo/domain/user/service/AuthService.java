@@ -41,16 +41,12 @@ public class AuthService {
 
         String encodedPassword = passwordEncoder.encode(registration.getPassword());
 
-        UserEntity user = UserEntity.builder()
-                .email(registration.getEmail())
-                .password(encodedPassword)
-                .displayName("")
-                .build();
+        UserEntity user = new UserEntity(registration.getEmail(), encodedPassword, "");
 
         userRepository.save(user);
         logger.info("{} registered successfully", user.getEmail());
 
-        return UserDto.builder().email(user.getEmail()).displayName(user.getDisplayName()).build();
+        return new UserDto(user.getEmail(), "", user.getDisplayName());
     }
 
     public UserDto login(UserDto.Login login) {
@@ -69,6 +65,6 @@ public class AuthService {
 
         String jwtToken = jwtUtils.generateToken(user);
 
-        return UserDto.builder().email(user.getEmail()).token(jwtToken).displayName(user.getDisplayName()).build();
+        return new UserDto(user.getEmail(), jwtToken, user.getDisplayName());
     }
 }

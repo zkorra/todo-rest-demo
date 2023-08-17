@@ -1,24 +1,45 @@
 package com.zkorra.todorestdemo.domain.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Getter
-@Builder
-@AllArgsConstructor
 public class UserDto {
+
+    public UserDto(String email, String token, String displayName) {
+        this.email = email;
+        this.token = token;
+        this.displayName = displayName;
+    }
+
     private String email;
     private String token;
     private String displayName;
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getToken() {
+        return this.token;
+    }
+
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     public static class Registration {
 
         @NotEmpty
@@ -29,11 +50,16 @@ public class UserDto {
         @NotEmpty
         @Size(min = 8, max = 64)
         private String password;
+
+        public String getEmail() {
+            return this.email;
+        }
+
+        public String getPassword() {
+            return this.password;
+        }
     }
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
     public static class Login {
 
         @NotEmpty
@@ -44,11 +70,16 @@ public class UserDto {
         @NotEmpty
         @Size(min = 8, max = 64)
         private String password;
+
+        public String getEmail() {
+            return this.email;
+        }
+
+        public String getPassword() {
+            return this.password;
+        }
     }
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
     public static class Update {
 
         @Size(min = 6, max = 64)
@@ -60,5 +91,17 @@ public class UserDto {
 
         @Size(max = 64)
         private String displayName;
+
+        public String getEmail() {
+            return this.email;
+        }
+
+        public String getPassword() {
+            return this.password;
+        }
+
+        public String getDisplayName() {
+            return this.displayName;
+        }
     }
 }

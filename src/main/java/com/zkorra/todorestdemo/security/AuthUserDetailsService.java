@@ -30,7 +30,7 @@ public class AuthUserDetailsService implements UserDetailsService {
 
         UserEntity user = opt.get();
 
-        return AuthUserDetails.builder().id(user.getId()).email(user.getEmail()).build();
+        return new AuthUserDetails(user.getId(), user.getEmail());
     }
 
 }

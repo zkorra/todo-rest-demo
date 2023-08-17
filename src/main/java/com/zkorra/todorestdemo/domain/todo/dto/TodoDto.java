@@ -17,6 +17,7 @@ public class TodoDto {
     private LocalDateTime updatedAt;
 
     @Getter
+    @Builder
     @AllArgsConstructor
     public static class Request {
         private String task;

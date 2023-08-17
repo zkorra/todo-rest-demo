@@ -24,7 +24,6 @@ public class UserService {
 
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
@@ -44,7 +43,8 @@ public class UserService {
 
         String jwtToken = jwtUtils.generateToken(user);
 
-        return UserDto.builder().email(user.getEmail()).token(jwtToken).displayName(user.getDisplayName()).build();
+        return new UserDto(user.getEmail(), jwtToken, user.getDisplayName());
+
     }
 
     public UserDto updateUser(UserDto.Update updateInfo, AuthUserDetails authUserDetails) {
@@ -71,7 +71,7 @@ public class UserService {
 
         userRepository.save(user);
 
-        return UserDto.builder().email(user.getEmail()).displayName(user.getDisplayName()).build();
+        return new UserDto(user.getEmail(), "", user.getDisplayName());
     }
 
     @Transactional
