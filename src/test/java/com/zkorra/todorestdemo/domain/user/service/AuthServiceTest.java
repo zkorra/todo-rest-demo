@@ -47,7 +47,7 @@ public class AuthServiceTest {
 
         assertEquals(registration.getEmail(), actual.getEmail());
         assertEquals("", actual.getDisplayName());
-        assertNull(actual.getToken());
+        assertEquals("", actual.getToken());
     }
 
     @Test
