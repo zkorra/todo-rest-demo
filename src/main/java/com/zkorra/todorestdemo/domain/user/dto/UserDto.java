@@ -17,15 +17,15 @@ public class UserDto {
     private String displayName;
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public String getToken() {
-        return this.token;
+        return token;
     }
 
     public String getDisplayName() {
-        return this.displayName;
+        return displayName;
     }
 
     public void setEmail(String email) {
@@ -52,11 +52,11 @@ public class UserDto {
         private String password;
 
         public String getEmail() {
-            return this.email;
+            return email;
         }
 
         public String getPassword() {
-            return this.password;
+            return password;
         }
     }
 
@@ -72,11 +72,11 @@ public class UserDto {
         private String password;
 
         public String getEmail() {
-            return this.email;
+            return email;
         }
 
         public String getPassword() {
-            return this.password;
+            return password;
         }
     }
 
@@ -93,15 +93,15 @@ public class UserDto {
         private String displayName;
 
         public String getEmail() {
-            return this.email;
+            return email;
         }
 
         public String getPassword() {
-            return this.password;
+            return password;
         }
 
         public String getDisplayName() {
-            return this.displayName;
+            return displayName;
         }
     }
 }

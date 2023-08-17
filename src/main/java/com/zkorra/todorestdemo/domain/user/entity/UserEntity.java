@@ -29,19 +29,19 @@ public class UserEntity extends BaseEntity {
     private List<TodoEntity> todos;
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public String getDisplayName() {
-        return this.displayName;
+        return displayName;
     }
 
     public void setEmail(String email) {
