@@ -5,6 +5,9 @@ public class UserDto {
     private String token;
     private String displayName;
 
+    public UserDto() {
+    }
+
     public UserDto(String email, String token, String displayName) {
         this.email = email;
         this.token = token;

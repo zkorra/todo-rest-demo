@@ -14,6 +14,15 @@ public class UserUpdateDto {
     @Size(max = 64)
     private String displayName;
 
+    public UserUpdateDto() {
+    }
+
+    public UserUpdateDto(String email, String password, String displayName) {
+        this.email = email;
+        this.password = password;
+        this.displayName = displayName;
+    }
+
     public String getEmail() {
         return email;
     }

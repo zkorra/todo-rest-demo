@@ -7,6 +7,11 @@ public class TodoRequestDto {
     public TodoRequestDto() {
     }
 
+    public TodoRequestDto(String task, String description) {
+        this.task = task;
+        this.description = description;
+    }
+
     public String getTask() {
         return task;
     }

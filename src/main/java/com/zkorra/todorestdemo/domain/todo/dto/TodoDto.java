@@ -10,6 +10,9 @@ public class TodoDto {
     private boolean completed;
     private LocalDateTime updatedAt;
 
+    public TodoDto() {
+    }
+
     public TodoDto(String slug, String task, String description, boolean completed, LocalDateTime updatedAt) {
         this.slug = slug;
         this.task = task;
