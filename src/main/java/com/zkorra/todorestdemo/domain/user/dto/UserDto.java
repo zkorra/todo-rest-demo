@@ -1,20 +1,15 @@
 package com.zkorra.todorestdemo.domain.user.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
 public class UserDto {
+    private String email;
+    private String token;
+    private String displayName;
 
     public UserDto(String email, String token, String displayName) {
         this.email = email;
         this.token = token;
         this.displayName = displayName;
     }
-
-    private String email;
-    private String token;
-    private String displayName;
 
     public String getEmail() {
         return email;
@@ -40,68 +35,4 @@ public class UserDto {
         this.displayName = displayName;
     }
 
-    public static class Registration {
-
-        @NotEmpty
-        @Size(min = 6, max = 64)
-        @Email
-        private String email;
-
-        @NotEmpty
-        @Size(min = 8, max = 64)
-        private String password;
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-    }
-
-    public static class Login {
-
-        @NotEmpty
-        @Size(min = 6, max = 64)
-        @Email
-        private String email;
-
-        @NotEmpty
-        @Size(min = 8, max = 64)
-        private String password;
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-    }
-
-    public static class Update {
-
-        @Size(min = 6, max = 64)
-        @Email
-        private String email;
-
-        @Size(min = 8, max = 64)
-        private String password;
-
-        @Size(max = 64)
-        private String displayName;
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-    }
 }

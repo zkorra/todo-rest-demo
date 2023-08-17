@@ -1,6 +1,7 @@
 package com.zkorra.todorestdemo.domain.user.controller;
 
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
+import com.zkorra.todorestdemo.domain.user.dto.UserUpdateDto;
 import com.zkorra.todorestdemo.domain.user.service.UserService;
 import com.zkorra.todorestdemo.security.AuthUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PutMapping()
-    public ResponseEntity<UserDto> updateUser(@RequestBody @Valid UserDto.Update updateInfo, @AuthenticationPrincipal AuthUserDetails authUserDetails) {
+    public ResponseEntity<UserDto> updateUser(@RequestBody @Valid UserUpdateDto updateInfo, @AuthenticationPrincipal AuthUserDetails authUserDetails) {
         return ResponseEntity.ok(userService.updateUser(updateInfo, authUserDetails));
     }
 

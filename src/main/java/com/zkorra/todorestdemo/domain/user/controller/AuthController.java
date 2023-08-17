@@ -1,6 +1,8 @@
 package com.zkorra.todorestdemo.domain.user.controller;
 
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
+import com.zkorra.todorestdemo.domain.user.dto.UserLoginDto;
+import com.zkorra.todorestdemo.domain.user.dto.UserRegistrationDto;
 import com.zkorra.todorestdemo.domain.user.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +25,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto.Registration registration) {
+    public ResponseEntity<UserDto> register(@RequestBody @Valid UserRegistrationDto registration) {
         return ResponseEntity.ok(authService.register(registration));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody @Valid UserDto.Login login) {
+    public ResponseEntity<UserDto> login(@RequestBody @Valid UserLoginDto login) {
         return ResponseEntity.ok(authService.login(login));
     }
 }

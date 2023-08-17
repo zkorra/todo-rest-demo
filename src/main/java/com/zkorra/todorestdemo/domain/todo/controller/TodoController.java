@@ -1,6 +1,7 @@
 package com.zkorra.todorestdemo.domain.todo.controller;
 
 import com.zkorra.todorestdemo.domain.todo.dto.TodoDto;
+import com.zkorra.todorestdemo.domain.todo.dto.TodoRequestDto;
 import com.zkorra.todorestdemo.domain.todo.service.TodoService;
 import com.zkorra.todorestdemo.security.AuthUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<TodoDto> saveTodo(@RequestBody TodoDto.Request todoDTO, @AuthenticationPrincipal AuthUserDetails authUserDetails) {
+    public ResponseEntity<TodoDto> saveTodo(@RequestBody TodoRequestDto todoDTO, @AuthenticationPrincipal AuthUserDetails authUserDetails) {
         return ResponseEntity.ok(todoService.saveTodo(todoDTO, authUserDetails));
     }
 

@@ -1,6 +1,8 @@
 package com.zkorra.todorestdemo.domain.user.service;
 
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
+import com.zkorra.todorestdemo.domain.user.dto.UserLoginDto;
+import com.zkorra.todorestdemo.domain.user.dto.UserRegistrationDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.exception.InvalidInputException;
@@ -30,7 +32,7 @@ public class AuthService {
         this.jwtUtils = jwtUtils;
     }
 
-    public UserDto register(UserDto.Registration registration) {
+    public UserDto register(UserRegistrationDto registration) {
 
         Optional<UserEntity> opt = userRepository.findByEmail(registration.getEmail());
 
@@ -49,7 +51,7 @@ public class AuthService {
         return new UserDto(user.getEmail(), "", user.getDisplayName());
     }
 
-    public UserDto login(UserDto.Login login) {
+    public UserDto login(UserLoginDto login) {
 
         Optional<UserEntity> opt = userRepository.findByEmail(login.getEmail());
 

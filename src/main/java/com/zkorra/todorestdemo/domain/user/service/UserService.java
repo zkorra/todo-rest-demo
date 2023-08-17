@@ -1,6 +1,7 @@
 package com.zkorra.todorestdemo.domain.user.service;
 
 import com.zkorra.todorestdemo.domain.user.dto.UserDto;
+import com.zkorra.todorestdemo.domain.user.dto.UserUpdateDto;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
 import com.zkorra.todorestdemo.domain.user.repository.UserRepository;
 import com.zkorra.todorestdemo.exception.ResourceConflictException;
@@ -47,7 +48,7 @@ public class UserService {
 
     }
 
-    public UserDto updateUser(UserDto.Update updateInfo, AuthUserDetails authUserDetails) {
+    public UserDto updateUser(UserUpdateDto updateInfo, AuthUserDetails authUserDetails) {
 
         UserEntity user = userRepository.findById(authUserDetails.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("user not found"));

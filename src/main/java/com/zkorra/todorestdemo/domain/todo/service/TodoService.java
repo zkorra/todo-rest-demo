@@ -1,6 +1,7 @@
 package com.zkorra.todorestdemo.domain.todo.service;
 
 import com.zkorra.todorestdemo.domain.todo.dto.TodoDto;
+import com.zkorra.todorestdemo.domain.todo.dto.TodoRequestDto;
 import com.zkorra.todorestdemo.domain.todo.entity.TodoEntity;
 import com.zkorra.todorestdemo.domain.todo.repository.TodoRepository;
 import com.zkorra.todorestdemo.domain.user.entity.UserEntity;
@@ -30,14 +31,9 @@ public class TodoService {
 
     public List<TodoDto> getAllTodos() {
         List<TodoEntity> todoItems = todoRepository.findAll();
+
         return todoItems.stream()
-                .map(item -> TodoDto.builder()
-                        .slug(item.getSlug())
-                        .task(item.getTask())
-                        .description(item.getDescription())
-                        .completed(item.isCompleted())
-                        .updatedAt(item.getUpdatedAt())
-                        .build())
+                .map(item -> new TodoDto(item.getSlug(), item.getTask(), item.getDescription(), item.isCompleted(), item.getUpdatedAt()))
                 .collect(Collectors.toList());
     }
 
@@ -51,42 +47,25 @@ public class TodoService {
 
         TodoEntity todoItem = opt.get();
 
-        return TodoDto.builder()
-                .slug(todoItem.getSlug())
-                .task(todoItem.getTask())
-                .description(todoItem.getDescription())
-                .completed(todoItem.isCompleted())
-                .updatedAt(todoItem.getUpdatedAt())
-                .build();
+        return new TodoDto(todoItem.getSlug(), todoItem.getTask(), todoItem.getDescription(), todoItem.isCompleted(), todoItem.getUpdatedAt());
     }
 
-    public TodoDto saveTodo(TodoDto.Request todo, AuthUserDetails authUserDetails) {
+    public TodoDto saveTodo(TodoRequestDto todo, AuthUserDetails authUserDetails) {
 
         if (todo.getTask() == null || todo.getTask().isEmpty()) {
             throw new InvalidInputException("todo information is invalid");
         }
 
-        UserEntity user = UserEntity.builder().id(authUserDetails.getId()).build();
+        UserEntity user = new UserEntity();
+        user.setId(authUserDetails.getId());
 
         String slug = randomSlug();
 
-        TodoEntity newTodo = TodoEntity.builder()
-                .slug(slug)
-                .task(todo.getTask())
-                .description(todo.getDescription())
-                .completed(false)
-                .user(user)
-                .build();
+        TodoEntity newTodo = new TodoEntity(slug, todo.getTask(), todo.getDescription(), false, user);
 
         todoRepository.save(newTodo);
 
-        return TodoDto.builder()
-                .slug(newTodo.getSlug())
-                .task(newTodo.getTask())
-                .description(newTodo.getDescription())
-                .completed(newTodo.isCompleted())
-                .updatedAt(newTodo.getUpdatedAt())
-                .build();
+        return new TodoDto(newTodo.getSlug(), newTodo.getTask(), newTodo.getDescription(), newTodo.isCompleted(), newTodo.getUpdatedAt());
     }
 
     public void deleteTodoById(String id) {

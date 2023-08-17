@@ -48,10 +48,10 @@ public class ControllerExceptionHandler {
         return responseErrorMessage(HttpStatus.BAD_REQUEST, messages);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e) {
-        return responseErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, List.of("internal server error"));
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+//        return responseErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, List.of("internal server error"));
+//    }
 
     private ResponseEntity<ErrorResponse> responseErrorMessage(HttpStatus status, List<String> errors) {
         ErrorResponse error = new ErrorResponse(status.value(), status.getReasonPhrase(), errors);

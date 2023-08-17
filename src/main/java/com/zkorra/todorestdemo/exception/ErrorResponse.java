@@ -2,11 +2,9 @@ package com.zkorra.todorestdemo.exception;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import lombok.Getter;
 
 import java.util.List;
 
-@Getter
 @JsonTypeName("error")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
 public class ErrorResponse {
@@ -21,4 +19,15 @@ public class ErrorResponse {
         this.errors = errors;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public List<String> getErrors() {
+        return errors;
+    }
 }

@@ -10,12 +10,6 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 
-    public UserEntity(String email, String password, String displayName) {
-        this.email = email;
-        this.password = password;
-        this.displayName = displayName;
-    }
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -28,8 +22,13 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TodoEntity> todos;
 
-    public String getId() {
-        return id;
+    public UserEntity() {
+    }
+
+    public UserEntity(String email, String password, String displayName) {
+        this.email = email;
+        this.password = password;
+        this.displayName = displayName;
     }
 
     public String getEmail() {
@@ -55,6 +54,4 @@ public class UserEntity extends BaseEntity {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-
-
 }
